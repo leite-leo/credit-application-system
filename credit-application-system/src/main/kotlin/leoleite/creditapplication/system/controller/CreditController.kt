@@ -1,15 +1,19 @@
 package leoleite.creditapplication.system.controller
 
+import jakarta.websocket.server.PathParam
 import leoleite.creditapplication.system.controller.dto.CreditDto
+import leoleite.creditapplication.system.controller.dto.CreditView
 import leoleite.creditapplication.system.controller.dto.CreditViewList
 import leoleite.creditapplication.system.entity.Credit
 import leoleite.creditapplication.system.service.implementation.CreditService
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.util.*
 import java.util.stream.Collectors
 
 @RestController
@@ -24,10 +28,19 @@ class CreditController(
   }
 
   @GetMapping
-  fun findAllByCustomerId(@RequestParam(value ="customerId") customerId: Long): List<CreditViewList> {
+  fun findAllByCustomerId(@RequestParam(value = "customerId") customerId: Long): List<CreditViewList> {
     return this.creditService.findAllByCustomer(customerId)
       .stream().map { credit: Credit -> CreditViewList(credit) }
       .collect(Collectors.toList())
-
   }
+
+  @GetMapping
+  fun findByCreditCode(
+    @RequestParam(value = "customerId") customerId: Long,
+    @PathVariable creditCode: UUID
+  ): CreditView {
+    val credit: Credit = this.creditService.findByCreditCode(customerId, creditCode)
+    return CreditView(credit)
+  }
+
 }
