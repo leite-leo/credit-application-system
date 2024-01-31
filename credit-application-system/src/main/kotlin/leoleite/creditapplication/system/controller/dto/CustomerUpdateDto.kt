@@ -1,14 +1,16 @@
 package leoleite.creditapplication.system.controller.dto
 
+import jakarta.validation.constraints.NotEmpty
+import jakarta.validation.constraints.NotNull
 import leoleite.creditapplication.system.entity.Customer
 import java.math.BigDecimal
 
 data class CustomerUpdateDto(
-  val firstName: String,
-  val lastName: String,
-  val income: BigDecimal,
-  val zipCode: String,
-  val street: String,
+  @field:NotEmpty(message = "First Name field is empty") val firstName: String,
+  @field:NotEmpty(message = "Last Name field is empty") val lastName: String,
+  @field:NotNull(message = "Income field is empty") val income: BigDecimal,
+  @field:NotEmpty(message = "Zip Code field is empty") val zipCode: String,
+  @field:NotEmpty(message = "Street field is empty") val street: String,
 ) {
   fun toEntity(customer: Customer): Customer {
     customer.firstName = this.firstName
