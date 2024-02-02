@@ -1,7 +1,9 @@
 package leoleite.creditapplication.system.controller.dto
 
 import jakarta.validation.constraints.Future
-import jakarta.validation.constraints.NotEmpty
+import jakarta.validation.constraints.Max
+import jakarta.validation.constraints.Min
+// import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.NotNull
 import leoleite.creditapplication.system.entity.Credit
 import leoleite.creditapplication.system.entity.Customer
@@ -11,9 +13,8 @@ import java.time.LocalDate
 
 data class CreditDto(
   @field:NotNull(message = "Credit Value field is empty") val creditValue: BigDecimal,
-  @field:NotEmpty(message = "First installment date field is empty")
   @field:Future val dayFirstOfInstallment: LocalDate,
-  @field:NotEmpty(message = "Number of installments field is empty")
+  @field:Min(value = 1) @field:Max(value = 48)
   @field:NumberFormat val numberOfInstallments: Int,
   @field:NotNull(message = "Custumer Id field is empty")val customerId: Long
 ) {
