@@ -1,5 +1,6 @@
 package leoleite.creditapplication.system.controller
 
+import jakarta.validation.Valid
 import leoleite.creditapplication.system.controller.dto.CustomerDto
 import leoleite.creditapplication.system.controller.dto.CustomerUpdateDto
 import leoleite.creditapplication.system.controller.dto.CustomerView
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -23,7 +25,7 @@ class CustomerController(
   private val customerService: CustomerService
 ) {
   @PostMapping
-  fun saveCustomer(@RequestBody customerDto: CustomerDto): ResponseEntity<String> {
+  fun saveCustomer(@RequestBody @Valid customerDto: CustomerDto): ResponseEntity<String> {
     val savedCustomer = this.customerService.save(customerDto.toEntity())
     return ResponseEntity.status(HttpStatus.CREATED).body("Customer ${savedCustomer.email} registred!")
   }
@@ -35,12 +37,13 @@ class CustomerController(
   }
 
   @DeleteMapping("/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
   fun deleteCustomer(@PathVariable id: Long) = this.customerService.delete(id)
 
   @PatchMapping
   fun updadeCustomer(
     @RequestParam(value = "customerId") id: Long,
-    @RequestBody customerUpdateDto: CustomerUpdateDto
+    @RequestBody @Valid customerUpdateDto: CustomerUpdateDto
   ): ResponseEntity<CustomerView> {
     val customer: Customer = this.customerService.findById(id)
     val customerToUpdate: Customer = customerUpdateDto.toEntity(customer)

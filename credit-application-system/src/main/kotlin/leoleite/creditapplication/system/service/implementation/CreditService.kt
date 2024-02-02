@@ -1,6 +1,7 @@
 package leoleite.creditapplication.system.service.implementation
 
 import leoleite.creditapplication.system.entity.Credit
+import leoleite.creditapplication.system.exceptions.BussinessException
 import leoleite.creditapplication.system.repository.CreditRepository
 import leoleite.creditapplication.system.service.ICreditService
 import org.springframework.stereotype.Service
@@ -24,8 +25,8 @@ class CreditService(
 
   override fun findByCreditCode(customerId: Long, creditCode: UUID): Credit {
     val credit: Credit = this.creditRepository.findByCreditCode(creditCode)
-      ?: throw RuntimeException("Credit Code $creditCode not found!")
-    return if (credit.customer?.id == customerId) credit else throw RuntimeException("Contact Admin")
+      ?: throw BussinessException("Credit Code $creditCode not found!")
+    return if (credit.customer?.id == customerId) credit else throw IllegalArgumentException("Contact Admin")
 //        if (credit.customer?.id == customerId) {
 //            return credit
 //        } else {

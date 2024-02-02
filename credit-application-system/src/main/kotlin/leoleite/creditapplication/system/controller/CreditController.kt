@@ -1,5 +1,6 @@
 package leoleite.creditapplication.system.controller
 
+import jakarta.validation.Valid
 import leoleite.creditapplication.system.controller.dto.CreditDto
 import leoleite.creditapplication.system.controller.dto.CreditView
 import leoleite.creditapplication.system.controller.dto.CreditViewList
@@ -23,7 +24,7 @@ class CreditController(
   private val creditService: CreditService
 ) {
   @PostMapping
-  fun savecredit(@RequestBody creditDto: CreditDto): ResponseEntity<String> {
+  fun savecredit(@RequestBody @Valid creditDto: CreditDto): ResponseEntity<String> {
     val credit: Credit = this.creditService.save(creditDto.toEntity())
     return ResponseEntity.status(HttpStatus.CREATED)
       .body("Credit ${credit.creditCode} - Customer ${credit.customer?.firstName} registred!")
