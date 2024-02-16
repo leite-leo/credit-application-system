@@ -45,8 +45,6 @@
 
 
 <h3>Autor</h3>
-
-<a href="https://www.linkedin.com/in/cami-la/">
  <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/106773972?v=4" width="100px;" alt=""/>
  <br />
  <sub><b>Leonardo Leite</b></sub></a>
